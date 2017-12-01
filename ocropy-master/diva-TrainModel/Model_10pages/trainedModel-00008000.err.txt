@@ -1,0 +1,5 @@
+errors         698
+missing          0
+total         8444
+err          8.266 %
+errnomiss    8.266 %

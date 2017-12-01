@@ -1,0 +1,1 @@
+{"minimum": {"name": "Model_5pages/Model_5pages\uff0ftrainedModel-00013500.pyrnn.gz", "error": 0.61804657229088}, "last": {"name": "Model_5pages/Model_5pages\uff0ftrainedModel-00015000.pyrnn.gz", "error": 2.726312230336263}}

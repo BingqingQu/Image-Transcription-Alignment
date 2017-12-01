@@ -1,0 +1,5 @@
+obsLogBase logNat
+dirObservation data/
+dirRecognition data/
+postfixObservation txt
+postfixRecognition rec
