@@ -1,0 +1,10 @@
+- Run 'diva-Recognition.sh' to segment text image, recognize the text and compute error rates.
+- Three inputs are needs:
+	page_image: text image name (all the text image are stroed in 'input' folder)
+	path_gt: path to the ground truth ('../../saintgalldb-v1.0/ground_truth') 
+	model: newly trained recognition model
+- Recognition results are found in 'output' folder named with the image name
+	'0001' folder: original recognition results from Ocropus
+	'new' folder: contains recognition results, output LSTM locations for characters and output probabilities for each letter
+	'GT' folder: copied ground truth of the text image
+	'new_GT': selected ground truth corresponding to the results in 'new' folder 

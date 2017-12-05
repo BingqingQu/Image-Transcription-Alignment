@@ -23,3 +23,9 @@ cao mttterr& rerum. Atuietcorrt tivnc currien sHiu co mtte lm ppo& r uttt. ECIoE
 oi consllio cviusla ducis nomi ne nebi p svasls. ad pre fxt& pprvn e
 cipe carolu cum eo elem duce ppe ravt t... lpsq. eande cella m
 ppri&xtis vure co.rtra di dtet. et irt et marri pr rm eadem lo e o
+total errors                             437
+total transcription                     1348
+transcription with missing lines        1406
+err  precision                        32.418 %
+err  precision  missing               31.081 %
+err  recall                           28.157 %

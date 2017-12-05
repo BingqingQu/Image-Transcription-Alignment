@@ -1,0 +1,2 @@
+- Run 'diva-ModelTraining.sh' to train new model using ocropus
+- Run 'diva-ModelComparison.sh' to select the best model which gives the best performance of recognization

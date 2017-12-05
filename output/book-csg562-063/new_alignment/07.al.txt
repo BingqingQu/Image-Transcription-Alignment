@@ -1,4 +1,4 @@
-# cpu=378.0 compression=1.0 length=1176
+# cpu=500.0 compression=1.0 length=1176
 -47 -1 EPS -0.44479248
 0 0 l -5.430935
 1 1 sp -8.477972

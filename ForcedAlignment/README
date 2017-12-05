@@ -1,0 +1,6 @@
+- Run 'diva-Line-ForcedAlignment.sh' to apply forced alingment on just one line image.
+	- input: contains the name of text image, and the line number
+	- output: probability matrix is found in 'new_proMatrix', aligned results with letter location and word location are found in 'new_alignment'
+- Run 'diva-Image-ForcedAlignment.sh' to apply forced alingment on all the line images of a text image.
+	- input: contains the name of text image
+	- output: probability matrix is found in 'new_proMatrix', aligned results with letter location and word location are found in 'new_alignment'

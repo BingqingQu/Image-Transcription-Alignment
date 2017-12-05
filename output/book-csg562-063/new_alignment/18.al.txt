@@ -1,4 +1,4 @@
-# cpu=402.0 compression=1.0 length=1108
+# cpu=372.0 compression=1.0 length=1108
 -16 -2 EPS -0.11736877
 0 0 s -8.224524
 2 14 EPS -0.047712885
