@@ -7,6 +7,8 @@
 
 # variable
 page_image='csg562-063'
+
+# pathss
 path_line_image='../output/book-'${page_image}'/new'
 path_transcript='../output/book-'${page_image}'/new_GT'
 path_word_location='../output/book-'${page_image}'/new_GT'
