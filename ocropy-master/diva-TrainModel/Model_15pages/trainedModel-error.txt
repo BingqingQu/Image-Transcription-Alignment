@@ -1,1 +1,0 @@
-{"minimum": {"name": "Model_15pages/trainedModel-00011000.pyrnn.gz", "error": 1.2265546256074562}, "last": {"name": "Model_15pages/trainedModel-00015000.pyrnn.gz", "error": 15.852012639548512}}

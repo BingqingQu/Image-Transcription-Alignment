@@ -1,0 +1,3 @@
+alingment error rate   0.555556
+Alingment Recall       0.797390
+Alingment precision    0.814582

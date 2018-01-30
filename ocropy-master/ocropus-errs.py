@@ -39,15 +39,9 @@ def process1(fname):
         missing = len(gt)
         txt = ""
     err = edist.levenshtein(txt,gt)
-    print(txt)
-    print(gt)
-    print(err)
     return fname,err,len(gt),missing
 
 outputs = ocrolib.parallel_map(process1,args.files,parallel=args.parallel,chunksize=10)
-
-print(args.files)
-print(outputs)
 
 errs = 0
 total = 0

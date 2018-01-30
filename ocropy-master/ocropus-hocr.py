@@ -20,7 +20,7 @@ parser.add_argument("-b","--nobreaks",action="store_true",help="don't output lin
 parser.add_argument("-p","--nopars",action="store_true",help="don't output paragraphs")
 parser.add_argument("-s","--fscale",type=float,default=1.0,help="scale factor for translating xheights into font size (use 0 to disable), default: %(default)s")
 parser.add_argument("-o","--output",default="book.html",help="output file, default: %(default)s")
-parser.add_argument("-oB","--outputBBox",default="BBox_text.txt",help="output file, default: %(default)s")
+parser.add_argument("-oB","--outputBBox",default=None,help="output file, default: %(default)s")
 parser.add_argument('files',nargs='+')
 args = parser.parse_args()
 args.files = ocrolib.glob_all(args.files)
@@ -84,7 +84,8 @@ for arg in args.files:
 
         # a txt file for the coordinates of the bounding boxes of each text box
         #fbbox = open("../output/BBox_text.txt","w")
-        fbbox = open(args.outputBBox,"w")
+        if args.outputBBox is not None:
+            fbbox = open(args.outputBBox,"w")
             
         for i in range(1,regions.length()):
 
@@ -147,7 +148,8 @@ for arg in args.files:
             PN(" class='ocr_line' title='%s'>"%info,text,"</span>")
 
             # output the coordinates of the bounding boxes of each text box in a text file
-            fbbox.write(info + '\r\n') 
+            if args.outputBBox is not None:
+                fbbox.write(info + '\r\n') 
             # fbbox.write(info + ' ') 
             
             if not args.nobreaks: P("<br />")
@@ -157,5 +159,6 @@ for arg in args.files:
         P("</div>")
 
 P(hocr.footer())
-fbbox.close()
+if args.outputBBox is not None:
+    fbbox.close()
 ostream.close()

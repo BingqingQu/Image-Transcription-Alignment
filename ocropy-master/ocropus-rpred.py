@@ -7,13 +7,16 @@ from pylab import *
 import os.path
 import ocrolib
 import argparse
+#matplotlib.use('Agg')
 import matplotlib
+import matplotlib.pyplot as plt
 from multiprocessing import Pool
 from ocrolib import edist
 from ocrolib.exceptions import FileNotFound, OcropusException
 from collections import Counter
 from ocrolib import lstm
 from scipy.ndimage import measurements
+import time
 
 parser = argparse.ArgumentParser("apply an RNN recognizer")
 
@@ -163,14 +166,29 @@ def process1(arg):
         # output recognized LSTM locations of characters
         result = lstm.translate_back(network.outputs,pos=1)
         scale = len(raw_line.T)*1.0/(len(network.outputs)-2*args.pad)
+        #print ('scale 1:', scale)
+
+        postition = []
+        postition_image = []
+        character = []
         #ion(); imshow(raw_line,cmap=cm.gray)
         with codecs.open(base+".llocs","w","utf-8") as locs:
             for r,c in result:
+                #--------------------
+                postition.append(r) # position on the probability matrix
+                #--------------------
                 c = network.l2s([c])
                 r = (r-args.pad)*scale
                 locs.write("%s\t%.1f\n"%(c,r))
+                # ----------------------------------
+                character.append(c)
+                postition_image.append(int(r))  # position on the image
+                # ----------------------------------
                 #plot([r,r],[0,20],'r' if c==" " else 'b')
         #ginput(1,1000)
+        # print ('positons on the image:', postition_image)
+        # print ('positons on the probability matrix:', postition)
+        # print ('characters:',  character)
 
     if args.alocs:
         # output recognized and aligned LSTM locations
@@ -179,6 +197,7 @@ def process1(arg):
             transcript = ocrolib.normalize_text(transcript)
             network.trainString(line,transcript,update=0)
             result = lstm.translate_back(network.aligned,pos=1)
+            print(result)
             scale = len(raw_line.T)*1.0/(len(network.aligned)-2*args.pad)
             with codecs.open(base+".alocs","w","utf-8") as locs:
                 for r,c in result:
@@ -229,33 +248,76 @@ def process1(arg):
         else:
             transcript = pred
         pred2 = network.trainString(line,transcript,update=0)
+
+        # -------------------- output characters that used in the network --------------
+        # it is initially defined in the trained model
+
+
+        charset = []
+        for i in range(0,len(network.outputs.T)):
+            c1 = network.l2s([i])
+            charset.append(str(c1.encode('utf-8')))
+        # print ('charset:',  charset)
+
+        charfile = open('charset.txt','w')
+        for item in charset:
+            charfile.write("%s" % item)
+        charfile.close()
+
+        #-----------------------------------------------------------
         figure("result",figsize=(1400//75,800//75),dpi=75)
         clf()
-        subplot(311)
+        subplot(211)
+
         imshow(line.T,cmap=cm.gray)
         title(transcript)
-        subplot(312)
+        
+        subplot(212)
         gca().set_xticks([])
+        # plot letters on the images of probability matrix----------------------------------------------------
+        id = 0
+        for px in postition:
+            c = character[id]
+            #print(px,c)
+            id = id+1
+            py = charset.index(c)
+            #print(py)
+            if c==" ":
+                c= "sp"
+            else:
+                c= c
+            plt.text(px-2,py+5,c, color='green', fontsize=12)
+        
         imshow(network.outputs.T[1:],vmin=0,cmap=cm.hot)
+
+
         title(pred[:80])
-        subplot(313)
-        plot(network.outputs[:,0],color='yellow',linewidth=3,alpha=0.5)
-        plot(network.outputs[:,1],color='green',linewidth=3,alpha=0.5)
-        plot(amax(network.outputs[:,2:],axis=1),color='blue',linewidth=3,alpha=0.5)
-        plot(network.aligned[:,0],color='orange',linestyle='dashed',alpha=0.7)
-        plot(network.aligned[:,1],color='green',linestyle='dashed',alpha=0.5)
-        plot(amax(network.aligned[:,2:],axis=1),color='blue',linestyle='dashed',alpha=0.5)
+    # -----------------------------------------------------
+
         if args.save is not None:
             draw()
             savename = args.save
             if "%" in savename: savename = savename%trial
             print_info("saving "+savename)
             savefig(savename,bbox_inches=0)
-        if trial==len(inputs)-1:
-            ginput(1,99999999)
-        else:
-            ginput(1,args.show)
+        if args.show>0:
+            if trial==len(inputs)-1:
+                ginput(1,99999999)
+            else:
+                ginput(1,args.show)
+    
+
+        # output probability matrix -------------------------------
+        if args.save is not None:
+            Text_out = open(savename + ".pm.txt","w") 
+            np.savetxt(Text_out, network.outputs.T, fmt='%f') 
+            Text_out.close() 
+
+
+    # ---------------------------------------------------------
     return None
+
+
 
 def safe_process1(arg):
     trial,fname = arg

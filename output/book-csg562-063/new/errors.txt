@@ -1,6 +1,0 @@
-total errors                             477
-total transcription                     1348
-transcription with missing lines        1435
-err  precision                        35.386 %
-err  precision  missing               33.240 %
-err  recall                           29.887 %

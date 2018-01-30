@@ -148,7 +148,10 @@ else:
     print("[" + s[:20], "...", s[-20:] + "]")
 codec = lstm.Codec().init(charset)
 
-print (charset)
+# print (charset)
+Text_out = open("charset.txt","w") 
+for c in charset: Text_out.write("%s"%c.encode('utf-8'))
+Text_out.close() 
 
 # Load an existing network or construct a new one
 # Somewhat convoluted logic for dealing with old style Python
